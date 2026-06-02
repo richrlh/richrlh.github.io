@@ -225,6 +225,28 @@ body {
     background: #3fa8b7;
 }
 
+.close-btn {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: var(--turquoise-dark);
+    color: white;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.close-btn:hover {
+    background: #3fa8b7;
+    transform: translateY(-1px);
+}
+
+.close-btn:active {
+    transform: translateY(1px);
+}
+
 /* MODAL */
 .modal {
     position: fixed;
