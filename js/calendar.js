@@ -81,91 +81,246 @@ function renderCalendar() {
     }
 }
 
-/* OPEN SCHEDULE */
+/*
+====================================
+CALENDAR - SCHEDULE RENDERER
+====================================
+*/
+
 function openDaySchedule(day) {
-    document.getElementById("scheduleModal").classList.remove("hidden");
-    document.getElementById("selectedDateHeading").textContent =
-        `${day} ${document.getElementById("monthYear").textContent}`;
-    buildScheduleTable();
+
+    const dateKey = getSelectedDateKey(day);
+
+    document.getElementById("scheduleModal")
+        .classList.remove("hidden");
+
+    document.getElementById("selectedDateHeading")
+        .textContent = dateKey;
+
+    const schedules =
+        JSON.parse(localStorage.getItem("fgSchedules")) || {};
+
+    const daySchedule =
+        schedules[dateKey]?.tasks || [];
+
+    buildScheduleTable(daySchedule);
 }
 
-/* TIME TABLE CREATION */
-function buildScheduleTable() {
-    const body = document.getElementById("scheduleBody");
+/*
+====================================
+DATE KEY HELPERS
+====================================
+*/
+
+function getSelectedDateKey(day) {
+
+    const monthYear =
+        document.getElementById("monthYear").textContent;
+
+    return `${monthYear} ${day}`;
+}
+
+/*
+====================================
+BUILD 30-MINUTE GRID
+====================================
+*/
+
+function buildScheduleTable(tasks) {
+
+    const body =
+        document.getElementById("scheduleBody");
+
     body.innerHTML = "";
 
+    // Convert tasks into slot map
+    const slotMap = generateSlotMap(tasks);
+
     for (let hour = 0; hour < 24; hour++) {
-        for (
-            let minute = 0;
-            minute < 60;
-            minute += 30
-        ) {
-            const row = document.createElement("tr");
-            const timeCell = document.createElement("td");
-            const taskCell = document.createElement("td");
-            const displayHour = hour % 12 || 12;
-            const ampm =
-                hour < 12
-                ? "AM"
-                : "PM";
+
+        for (let min = 0; min < 60; min += 30) {
+
+            const timeIndex =
+                hour * 60 + min;
+
+            const row =
+                document.createElement("tr");
+
+            const timeCell =
+                document.createElement("td");
+
+            const taskCell =
+                document.createElement("td");
 
             timeCell.textContent =
-                `${displayHour}:${minute
-                    .toString()
-                    .padStart(2,"0")}
-                    ${ampm}`;
+                formatTime(hour, min);
 
-            taskCell.innerHTML = `
-                <div class="task-entry">
-                    <span class="task-name">
-                        Sample Task
-                    </span>
-                    <div class="task-controls">
-                        <button
-                            class="play-btn"
-                            aria-label="Play Music">
-                            ▶
-                        </button>
-                        <button
-                            class="complete-btn">
-                            Mark Complete
-                        </button>
-                    </div>
-                </div>`;
+            const slotTasks =
+                slotMap[timeIndex] || [];
 
-            row.append(
-                timeCell,
-                taskCell
-            );
+            if (slotTasks.length === 0) {
+
+                taskCell.innerHTML = "";
+            }
+
+            else {
+
+                taskCell.innerHTML =
+                    slotTasks
+                        .map(renderTaskBlock)
+                        .join("");
+            }
+
+            row.append(timeCell, taskCell);
 
             body.appendChild(row);
         }
     }
 
-    attachCompleteButtons();
+    attachTaskButtons();
 }
 
-/* Complete Tasks */
-function attachCompleteButtons() {
-    document
-        .querySelectorAll(".complete-btn")
-        .forEach(button => {
+/*
+====================================
+MAP TASKS INTO TIME SLOTS
+====================================
+*/
 
-            button.addEventListener(
-                "click",
-                () => {
+function generateSlotMap(tasks) {
 
-                    button.parentElement
-                        .classList.add(
-                            "completed"
-                        );
+    const map = {};
 
-                    showRewardMessage(5);
-                }
-            );
+    for (let task of tasks) {
+
+        const start = task.start;
+        const end = task.end;
+
+        for (let t = start; t < end; t += 30) {
+
+            const slot = Math.floor(t / 30) * 30;
+
+            if (!map[slot]) {
+                map[slot] = [];
+            }
+
+            map[slot].push(task);
+        }
+    }
+
+    return map;
+}
+
+/*
+====================================
+RENDER TASK BLOCK
+====================================
+*/
+
+function renderTaskBlock(task) {
+
+    return `
+        <div class="task-entry">
+
+            <span class="task-name">
+                ${task.name}
+            </span>
+
+            <div class="task-controls">
+
+                <button class="play-btn"
+                        data-id="${task.id}">
+                    ▶
+                </button>
+
+                <button class="complete-btn"
+                        data-id="${task.id}">
+                    ✓
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+/*
+====================================
+TIME FORMATTER
+====================================
+*/
+
+function formatTime(hour, min) {
+
+    const h = hour % 12 || 12;
+    const ampm = hour < 12 ? "AM" : "PM";
+
+    return `${h}:${String(min).padStart(2, "0")} ${ampm}`;
+}
+
+/*
+====================================
+BUTTON LOGIC
+====================================
+*/
+
+function attachTaskButtons() {
+
+    document.querySelectorAll(".complete-btn")
+        .forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                const id = parseInt(btn.dataset.id);
+
+                markTaskComplete(id);
+
+                btn.closest(".task-entry")
+                    .style.opacity = "0.4";
+
+                showRewardMessage(5);
+            });
+        });
+
+    document.querySelectorAll(".play-btn")
+        .forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                const id = parseInt(btn.dataset.id);
+
+                alert("Music system coming soon for task " + id);
+            });
         });
 }
 
+/*
+====================================
+TASK COMPLETION (LOCAL STATE UPDATE)
+====================================
+*/
+
+function markTaskComplete(id) {
+
+    const schedules =
+        JSON.parse(localStorage.getItem("fgSchedules")) || {};
+
+    for (let date in schedules) {
+
+        let tasks = schedules[date].tasks;
+
+        for (let t of tasks) {
+
+            if (t.id === id) {
+                t.completed = true;
+            }
+        }
+    }
+
+    localStorage.setItem(
+        "fgSchedules",
+        JSON.stringify(schedules)
+    );
+}
 function showRewardMessage(amount) {
     const toast = document.getElementById("rewardToast");
     const message = rewardMessages[Math.floor(Math.random() * rewardMessages.length)];
