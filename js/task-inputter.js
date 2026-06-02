@@ -1,20 +1,21 @@
 /*
 =====================================
-TASK INPUTTER PAGE
+FERAL GREMLIN - TASK INPUTTER + SCHEDULER
 =====================================
 */
-let taskCounter = 0;
 
-/* WAITING */
+let taskCounter = 0;
+let tasks = [];
+let selectedDate = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     waitForTaskPage();
 });
 
 function waitForTaskPage() {
     const interval = setInterval(() => {
-        const button = document.getElementById("openTaskModal");
-
-        if (button) {
+        const dateInput = document.getElementById("taskDate");
+        if (dateInput) {
             clearInterval(interval);
             initializeTaskInputter();
         }
@@ -25,161 +26,202 @@ function initializeTaskInputter() {
     setupModal();
     setupDragDrop();
     setupGenerateButton();
-}
-
-/* MODAL */
-function setupModal() {
-    const modal = document.getElementById("taskModal");
-
-    document
-        .getElementById("openTaskModal")
-        .addEventListener(
-            "click",
-            () => {
-                modal.classList.remove(
-                    "hidden"
-                );
-            }
-        );
-
-    document
-        .getElementById("cancelTask")
-        .addEventListener(
-            "click",
-            closeModal
-        );
-
-    document
-        .getElementById("finishTask")
-        .addEventListener(
-            "click",
-            createTask
-        );
-}
-
-function closeModal() {
-    document.getElementById("taskModal").classList.add("hidden");
+    selectedDate = document.getElementById("taskDate");
 }
 
 function createTask() {
     const name = document.getElementById("taskName").value.trim();
-    const duration = document.getElementById("taskDuration").value;
+    const duration = parseInt(document.getElementById("taskDuration").value);
+    const music = document.querySelector('input[name="music"]:checked').value;
 
     if (!name || !duration) {
-        alert("Please enter task name and duration.");
+        alert("Please fill out all fields.");
         return;
     }
 
-    taskCounter++;
-    const card = document.createElement("div");
+    const task = {
+        id: taskCounter++,
+        name,
+        duration,
+        priority: "high",
+        musicType: music
+    };
 
-    card.className = "task-card";
-    card.draggable = true;
-    card.id = `task-${taskCounter}`;
-
-    const musicChoice = document.querySelector('input[name="music"]:checked').value;
-    card.dataset.music = musicChoice;
-    card.innerHTML = `
-        <div class="task-title">
-            ${name}
-        </div>
-
-        <div class="task-duration">
-            ${duration} minutes
-        </div>
-    `;
-
-    addDragEvents(card);
-
-    document.getElementById("highTasks").appendChild(card);
-    document.getElementById("taskName").value = "";
-    document.getElementById("taskDuration").value = "";
+    tasks.push(task);
+    renderTaskCard(task);
     closeModal();
 }
 
-function addDragEvents(card) {
-    card.addEventListener(
-        "dragstart",
-        () => {
-            card.classList.add(
-                "dragging"
-            );
-        }
-    );
+function renderTaskCard(task) {
+    const card = document.createElement("div");
+    card.className = "task-card";
+    card.draggable = true;
+    card.dataset.id = task.id;
+    card.innerHTML = `
+        <div class="task-title">${task.name}</div>
+        <div class="task-duration">${task.duration} min</div>
+    `;
 
-    card.addEventListener(
-        "dragend",
-        () => {
-            card.classList.remove(
-                "dragging"
-            );
-        }
-    );
+    addDragEvents(card);
+    document.getElementById("highTasks").appendChild(card);
 }
 
 function setupDragDrop() {
-
-    document
-        .querySelectorAll(
-            ".task-dropzone"
-        )
+    document.querySelectorAll(".task-dropzone")
         .forEach(zone => {
 
-            zone.addEventListener(
-                "dragover",
-                e => {
+            zone.addEventListener("dragover", e => {
+                e.preventDefault();
+            });
 
-                    e.preventDefault();
-                }
-            );
+            zone.addEventListener("drop", () => {
 
-            zone.addEventListener(
-                "drop",
-                () => {
+                const dragging =
+                    document.querySelector(".dragging");
 
-                    const task =
-                        document.querySelector(
-                            ".dragging"
-                        );
+                if (!dragging) return;
 
-                    if (task) {
+                const taskId =
+                    parseInt(dragging.dataset.id);
 
-                        zone.appendChild(task);
-                    }
-                }
-            );
+                const task =
+                    tasks.find(t => t.id === taskId);
+
+                if (!task) return;
+
+                // Update priority based on drop zone
+                const priority =
+                    zone.id.replace("Tasks", "");
+
+                task.priority = priority;
+
+                zone.appendChild(dragging);
+            });
         });
 }
 
+function addDragEvents(card) {
+    card.addEventListener("dragstart", () => {
+        card.classList.add("dragging");
+    });
+
+    card.addEventListener("dragend", () => {
+        card.classList.remove("dragging");
+    });
+}
+
 function setupGenerateButton() {
+    document.getElementById("generateSchedule").addEventListener("click", () => {
+            const date = document.getElementById("taskDate").value;
 
-    document
-        .getElementById(
-            "generateSchedule"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                const date =
-                    document
-                        .getElementById(
-                            "taskDate"
-                        )
-                        .value;
-
-                if (!date) {
-
-                    alert(
-                        "Please select a date first."
-                    );
-
-                    return;
-                }
-
-                alert(
-                    "Schedule generation will be implemented in the next phase."
-                );
+            if (!date) {
+                alert("Select a date first.");
+                return;
             }
+
+            selectedDate = date;
+            const schedule =
+                generateSchedule(tasks);
+
+            saveSchedule(date, schedule);
+            alert("Schedule generated successfully!");
+            resetInputter();
+        });
+}
+
+/* Scheduling Algorithm */
+function generateSchedule(taskList) {
+    const sorted =
+        [...taskList].sort((a, b) => {
+
+            const order = {
+                high: 1,
+                medium: 2,
+                low: 3
+            };
+
+            return order[a.priority] - order[b.priority];
+        });
+
+    // Available time windows (7 AM - 11 PM default)
+    let windows = [
+        { start: 420, end: 1380 }
+    ];
+
+    const scheduled = [];
+    const unscheduled = [];
+
+    for (let task of sorted) {
+
+        const required =
+            task.duration + 5; // break time
+
+        let placed = false;
+
+        for (let w of windows) {
+
+            const available =
+                w.end - w.start;
+
+            if (available >= required) {
+
+                const start = w.start;
+                const end = start + task.duration;
+
+                scheduled.push({
+                    ...task,
+                    start,
+                    end
+                });
+
+                // Update window (consume time + break)
+                w.start = end + 5;
+
+                placed = true;
+                break;
+            }
+        }
+
+        if (!placed) {
+            unscheduled.push(task);
+        }
+    }
+
+    if (unscheduled.length > 0) {
+        console.warn(
+            "Some tasks could not be scheduled",
+            unscheduled
         );
+    }
+
+    return {
+        date: selectedDate,
+        tasks: scheduled,
+        unscheduled
+    };
+}
+
+/* LOCAL STORAGE */
+function saveSchedule(date, schedule) {
+
+    let all =
+        JSON.parse(
+            localStorage.getItem("fgSchedules")
+        ) || {};
+
+    all[date] = schedule;
+
+    localStorage.setItem(
+        "fgSchedules",
+        JSON.stringify(all)
+    );
+}
+
+/* RESET UI */
+function resetInputter() {
+    tasks = [];
+    document.getElementById("highTasks").innerHTML = "";
+    document.getElementById("mediumTasks").innerHTML = "";
+    document.getElementById("lowTasks").innerHTML = "";
+    document.getElementById("taskDate").value = "";
 }
