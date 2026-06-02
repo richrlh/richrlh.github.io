@@ -64,7 +64,6 @@ function renderCalendar() {
         );
 
     const firstDay = new Date(year, month, 1).getDay();
-
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
     for (let i = 0; i < firstDay; i++) {
@@ -117,11 +116,22 @@ function buildScheduleTable() {
                     ${ampm}`;
 
             taskCell.innerHTML = `
-                Sample Task
-                <button class="complete-btn">
-                    Mark Complete
-                </button>
-            `;
+                <div class="task-entry">
+                    <span class="task-name">
+                        Sample Task
+                    </span>
+                    <div class="task-controls">
+                        <button
+                            class="play-btn"
+                            aria-label="Play Music">
+                            ▶
+                        </button>
+                        <button
+                            class="complete-btn">
+                            Mark Complete
+                        </button>
+                    </div>
+                </div>`;
 
             row.append(
                 timeCell,
