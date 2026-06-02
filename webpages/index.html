@@ -1,9 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feral Gremlin - Calendar</title>
 
-<main>
-  <h1>
-    To Do List
-  </h1>
-</main>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar Injected Here -->
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+
+        <!-- Header Injected Here -->
+        <div id="header-container"></div>
+
+        <!-- Calendar Page -->
+        <section class="calendar-page">
+
+            <div class="calendar-layout">
+
+                <!-- Calendar -->
+                <div class="calendar-container">
+
+                    <div class="calendar-header">
+
+                        <button id="prevMonth" class="month-btn">
+                            ◀
+                        </button>
+
+                        <h2 id="monthYear"></h2>
+
+                        <button id="nextMonth" class="month-btn">
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <div class="weekday-row">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+
+                    <div id="calendarGrid" class="calendar-grid"></div>
+
+                </div>
+
+                <!-- Right Side Panel -->
+                <div class="calendar-side-panel">
+
+                    <button class="edit-schedule-btn">
+                        Edit Schedule
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Day Schedule Modal -->
+    <div id="scheduleModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2 id="selectedDateHeading"></h2>
+
+            <div class="schedule-table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Tasks</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="scheduleBody"></tbody>
+
+                </table>
+
+            </div>
+
+            <button id="closeModal" class="close-btn">
+                Close To-Do List
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Reward Toast -->
+    <div id="rewardToast" class="reward-toast"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/calendar.js"></script>
+
+</body>
+</html>
