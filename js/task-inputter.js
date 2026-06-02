@@ -120,8 +120,7 @@ function setupGenerateButton() {
             }
 
             selectedDate = date;
-            const schedule =
-                generateSchedule(tasks);
+            const schedule = generateSchedule(tasks);
 
             saveSchedule(date, schedule);
             alert("Schedule generated successfully!");
