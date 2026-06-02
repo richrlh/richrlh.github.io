@@ -1,3 +1,277 @@
-h1 {
-  text-align: center;
+/* Root Colors */
+:root {
+
+    --turquoise-light: #d8ffff;
+    --turquoise-main: #9ee7e5;
+    --turquoise-dark: #57b8c6;
+    --text-dark: #24424a;
+    --white: #ffffff;
+}
+
+/* Global */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    font-family: Georgia, serif;
+    background: #f8ffff;
+    color: var(--text-dark);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: var(--turquoise-main);
+    transition: 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.hamburger {
+    border: none;
+    background: none;
+    font-size: 2rem;
+    cursor: pointer;
+    margin: 15px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 12px;
+}
+
+.sidebar.collapsed .sidebar-nav {
+    display: none;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-dark);
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.nav-link:hover {
+    background: var(--turquoise-light);
+}
+
+.nav-link.active {
+    background: var(--turquoise-dark);
+    color: white;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    margin-left: 250px;
+    width: 100%;
+    transition: 0.3s ease;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 70px;
+}
+
+/* HEADER */
+.app-header {
+    text-align: center;
+    padding: 20px;
+}
+
+.app-header h1 {
+    margin-bottom: 5px;
+    font-size: 2.5rem;
+}
+
+.greeting {
+    font-size: 1.1rem;
+}
+
+.editable-name {
+    min-width: 50px;
+    display: inline-block;
+}
+
+.editable-name:focus {
+    outline: none;
+    border-bottom: 1px dashed var(--turquoise-dark);
+}
+
+/* CALENDAR */
+.calendar-page {
+    padding: 20px;
+}
+
+.calendar-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.calendar-container {
+    flex: 4;
+    min-width: 350px;
+}
+
+.calendar-side-panel {
+    flex: 1;
+    min-width: 220px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.month-btn {
+    border: none;
+    background: var(--turquoise-dark);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.weekday-row, .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.weekday-row div {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.calendar-grid {
+    gap: 5px;
+}
+
+.day {
+    background: white;
+    min-height: 100px;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day:hover {
+    background: var(--turquoise-light);
+}
+
+.day-number {
+    font-weight: bold;
+}
+
+.edit-schedule-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: var(--turquoise-dark);
+    color: white;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,.5);
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.schedule-table-wrapper {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+/* TASK BUTTONS */
+.complete-btn {
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(
+        45deg,
+        #62d3c7,
+        #4eb9c4
+    );
+
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.completed {
+    background: #d5d5d5;
+}
+
+/* REWARD MESSAGE */
+.reward-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--turquoise-dark);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    opacity: 0;
+    transition: .4s;
+}
+
+.reward-toast.show {
+    opacity: 1;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .calendar-layout {
+        flex-direction: column;
+    }
+
+    .calendar-container,
+    .calendar-side-panel {
+        width: 100%;
+    }
 }
