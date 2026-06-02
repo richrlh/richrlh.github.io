@@ -190,6 +190,41 @@ body {
     color: white;
 }
 
+.task-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.task-name {
+    flex: 1;
+    word-break: break-word;
+}
+
+.task-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.play-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: #57b8c6;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.play-btn:hover {
+    transform: scale(1.05);
+    background: #3fa8b7;
+}
+
 /* MODAL */
 .modal {
     position: fixed;
