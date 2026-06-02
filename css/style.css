@@ -321,14 +321,140 @@ th, td {
     opacity: 1;
 }
 
+/* TASK INPUTTER */
+.task-page {
+    padding: 20px;
+}
+
+.task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.date-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.date-section input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.add-task-btn {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    background: var(--turquoise-dark);
+}
+
+.priority-layout {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.priority-box {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 400px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.priority-box h2 {
+    text-align: center;
+}
+
+.task-dropzone {
+    min-height: 300px;
+}
+
+.task-card {
+    background: var(--turquoise-light);
+    border-left: 5px solid var(--turquoise-dark);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: grab;
+    word-wrap: break-word;
+}
+
+.task-card.dragging {
+    opacity: .5;
+}
+
+.task-title {
+    font-weight: bold;
+}
+
+.task-duration {
+    margin-top: 5px;
+    font-size: .9rem;
+}
+
+.generate-container {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.generate-btn {
+    border: none;
+    background: #4fb89f;
+    color: white;
+    font-size: 1rem;
+    padding: 15px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.music-choice {
+    margin-top: 20px;
+}
+
+.music-choice label {
+    display: block;
+    margin: 10px 0;
+}
+
+.modal-content input[type="text"], .modal-content input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
+    /* Calendar */
     .calendar-layout {
         flex-direction: column;
     }
 
-    .calendar-container,
-    .calendar-side-panel {
+    .calendar-container, .calendar-side-panel {
         width: 100%;
+    }
+
+    /* Task Inputter */
+    .priority-layout {
+        flex-direction: column;
     }
 }
