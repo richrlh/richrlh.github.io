@@ -29,6 +29,35 @@ function initializeTaskInputter() {
     selectedDate = document.getElementById("taskDate");
 }
 
+function setupModal() {
+    const addTaskBtn = document.getElementById("add-task-btn");
+    const finishTaskBtn = document.getElementById("finishTask");
+    const cancelTaskBtn = document.getElementById("cancelTask");
+    
+    addTaskBtn.addEventListener("click", openModal);
+    finishTaskBtn.addEventListener("click", createTask);
+    cancelTaskBtn.addEventListener("click", closeModal);
+}
+
+function openModal() {
+    document.getElementById("taskModal").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("taskModal").classList.add("hidden");
+    document.getElementById("taskName").value = "";
+    document.getElementById("taskDuration").value = "";
+
+    const defaultMusic =
+        document.querySelector(
+            'input[name="music"][value="default"]'
+        );
+
+    if (defaultMusic) {
+        defaultMusic.checked = true;
+    }
+}
+
 function createTask() {
     const name = document.getElementById("taskName").value.trim();
     const duration = parseInt(document.getElementById("taskDuration").value);
