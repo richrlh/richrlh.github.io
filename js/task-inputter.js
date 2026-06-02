@@ -30,7 +30,7 @@ function initializeTaskInputter() {
 }
 
 function setupModal() {
-    const addTaskBtn = document.getElementById("add-task-btn");
+    const addTaskBtn = document.getElementById("openTaskModal");
     const finishTaskBtn = document.getElementById("finishTask");
     const cancelTaskBtn = document.getElementById("cancelTask");
     
