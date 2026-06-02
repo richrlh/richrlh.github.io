@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     initializeSidebar();
     initializeUsername();
+    initializeActiveNav();
 });
 
 /* LOAD HTML */
@@ -46,5 +47,20 @@ function initializeUsername() {
 
     username.addEventListener("blur", () => {
         localStorage.setItem("fgUsername", username.textContent.trim());
+    });
+}
+
+/* SIDEBAR FUNCTIONALITY */
+function initializeActiveNav() {
+    const currentPage = window.location.pathname.split("/").pop();
+    const links = document.querySelectorAll(".nav-link");
+
+    links.forEach(link => {
+        link.classList.remove("active");
+        const href = link.getAttribute("href");
+
+        if (href === currentPage) {
+            link.classList.add("active");
+        }
     });
 }
