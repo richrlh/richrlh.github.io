@@ -195,7 +195,8 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ddd;
 }
 
 .task-name {
@@ -208,7 +209,7 @@ body {
     gap: 8px;
 }
 
-.play-btn {
+.play-btn, .complete-btn {
     width: 36px;
     height: 36px;
     border: none;
