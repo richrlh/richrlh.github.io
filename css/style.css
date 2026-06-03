@@ -524,10 +524,6 @@ th, td {
     cursor: pointer;
 }
 
-.modalMusic-buttons: hover {
-    background-color: #44b7b1; /* Darker turquoise */
-}
-
 /* Mobile */
 @media (max-width: 768px) {
     /* Calendar */
