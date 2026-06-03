@@ -8,28 +8,19 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<div class="container">
-
-    <header>
-        <h1>Feral Gremlin</h1>
-        <h2>My To-Do List Playlist</h2>
-    </header>
-
-    <main>
-
+    <!-- Sidebar Injected Here -->
+    <div id="sidebar-container"></div>
+    <main class="main-content">
+        <!-- Header Injected Here -->
+        <div id="header-container"></div>
+        
         <div class="playlist-container">
-
             <div id="playlist"></div>
-
             <button id="addSongBtn" class="primary-btn">
                 + Add Song
             </button>
-
         </div>
-
     </main>
-
 </div>
 
 <!-- Modal -->
@@ -67,9 +58,7 @@
             <button id="saveSong">Save Song</button>
             <button id="cancelSong">Cancel</button>
         </div>
-
     </div>
-
 </div>
 <script src="js/main.js"></script>
 <script src="js/music.js"></script>
