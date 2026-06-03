@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let currentDate = new Date();
-let balance = 10;
+let balance = Number(localStorage.getItem("fgBalance")) || 10;
 const rewardMessages = [
     "Yay, you did it! You earned",
     "Woof! Great work! You earned",
@@ -331,6 +331,8 @@ function showRewardMessage(amount) {
 
     toast.classList.add("show");
 
+    balance += amount;
+    localStorage.setItem("fgBalance", balance);
     setTimeout(() => {
         toast.classList.remove("show");
     }, 4000);
