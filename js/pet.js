@@ -1,7 +1,7 @@
 const storeItems = [
     // TOYS
     {name:"Tennis Ball", category:"Toy", price:2, image:"assets/images/tennis-ball.png"},
-    {name:"Rope Toy", category:"Toy", price:4},
+    {name:"Rope Toy", category:"Toy", price:4, image:"assets/images/rope-toy.png"},
     {name:"Squeaky Duck", category:"Toy", price:6},
     {name:"Frisbee", category:"Toy", price:8},
 
