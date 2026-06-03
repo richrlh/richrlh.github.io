@@ -52,6 +52,27 @@ let purchasedItems =
         )
     ) || [];
 
+document
+.getElementById("clothingBtn")
+.addEventListener(
+    "click",
+    cycleClothing
+);
+
+document
+.getElementById("toyBtn")
+.addEventListener(
+    "click",
+    cycleToy
+);
+
+document
+.getElementById("foodBtn")
+.addEventListener(
+    "click",
+    cycleFood
+);
+
 function saveEquipped(){
     localStorage.setItem(
         "fgEquipped",
@@ -154,3 +175,75 @@ function buyItem(itemName){
         `${item.name} purchased!`
     );
 }
+
+function cycleClothing(){
+    const items = inventory.clothing;
+
+    let current = items.indexOf(equipped.clothing);
+
+    current++;
+
+    if(current >= items.length){
+        current = 0;
+    }
+
+    equipped.clothing = items[current];
+
+    saveEquipped();
+    updatePetDisplay();
+}
+
+function cycleToy(){
+    const items = inventory.toy;
+
+    let current = items.indexOf(equipped.toy);
+
+    current++;
+
+    if(current >= items.length){
+        current = 0;
+    }
+
+    equipped.toy = items[current];
+
+    saveEquipped();
+    updatePetDisplay();
+}
+
+function cycleFood(){
+    const items = inventory.food;
+
+    let current = items.indexOf(equipped.food);
+
+    current++;
+
+    if(current >= items.length){
+        current = 0;
+    }
+
+    equipped.food = items[current];
+
+    saveEquipped();
+    updatePetDisplay();
+}
+
+function updatePetDisplay(){
+    const clothing =
+        storeItems.find(
+            item =>
+            item.name ===
+            equipped.clothing
+        );
+
+    if(clothing){
+        document
+        .getElementById(
+            "clothingOverlay"
+        )
+        .src =
+        clothing.image;
+    }
+}
+
+updatePetDisplay();
+renderStore();
