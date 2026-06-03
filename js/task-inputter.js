@@ -200,7 +200,6 @@ function applyBlockedTime(windows, date) {
 }
 
 function cutWindow(windows, start, end) {
-
     let updated = [];
 
     for (let w of windows) {
@@ -232,9 +231,7 @@ function cutWindow(windows, start, end) {
 }
 
 function generateSchedule(taskList, date) {
-
     const sorted = [...taskList].sort((a, b) => {
-
         const order = {
             high: 1,
             medium: 2,
@@ -251,17 +248,12 @@ function generateSchedule(taskList, date) {
     const unscheduled = [];
 
     for (let task of sorted) {
-
         const needed = task.duration + 5;
-
         let placed = false;
 
         for (let w of windows) {
-
             const available = w.end - w.start;
-
             if (available >= needed) {
-
                 const start = w.start;
                 const end = start + task.duration;
 
