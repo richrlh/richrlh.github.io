@@ -673,14 +673,14 @@ th, td {
     pointer-events:none;
 }
 
-.emotion-container{
+.-container{
     display:flex;
     flex-direction:column;
     align-items:center;
     gap:.5rem;
 }
 
-.emotion-meter{
+.-meter{
     width:35px;
     height:200px;
     border-radius:25px;
@@ -690,7 +690,7 @@ th, td {
 
 #emotionFill{
     width:100%;
-    height:50%;
+    height:100%;
 
     background: linear-gradient(
         to top,
