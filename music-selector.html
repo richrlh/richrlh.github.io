@@ -27,7 +27,7 @@
 <!-- Modal -->
 <div id="songModal" class="modal hidden">
     <div class="modalMusic-content">
-        <h3>Add Song</h3>
+        <h2>Add Song</h2>
 
         <label>Song Name</label>
         <input
@@ -41,6 +41,7 @@
             type="text"
             id="youtubeLink"
             placeholder="https://youtube.com/..."
+            class="music-modal"
         >
 
         <div class="divider">OR</div>
@@ -50,11 +51,12 @@
             type="file"
             id="audioFile"
             accept="audio/*"
+            class="music-modal"
         >
 
         <div class="modalMusic-buttons">
             <button id="saveSong">Save Song</button>
-            <button id="cancelSong">Cancel</button>
+            <button id="cancelSong" class="cancel-btn">Cancel</button>
         </div>
     </div>
 </div>
