@@ -273,12 +273,14 @@ function attachTaskButtons() {
 
                 const id = parseInt(btn.dataset.id);
 
+                const taskPriority = getTaskPriority(id);
+
                 markTaskComplete(id);
 
                 btn.closest(".task-entry")
                     .style.opacity = "0.4";
 
-                showRewardMessage(5);
+                showRewardMessage(taskPriority);
             });
         });
 
@@ -322,12 +324,55 @@ function markTaskComplete(id) {
         JSON.stringify(schedules)
     );
 }
-function showRewardMessage(amount) {
+
+/*
+====================================
+GET TASK PRIORITY
+====================================
+*/
+
+function getTaskPriority(id) {
+
+    const schedules =
+        JSON.parse(localStorage.getItem("fgSchedules")) || {};
+
+    for (let date in schedules) {
+
+        let tasks = schedules[date].tasks;
+
+        for (let t of tasks) {
+
+            if (t.id === id) {
+                return t.priority || "medium";
+            }
+        }
+    }
+
+    return "medium";
+}
+
+/*
+====================================
+REWARD SYSTEM
+====================================
+*/
+
+function getRewardByPriority(priority) {
+    const rewardMap = {
+        "high": 5,
+        "medium": 1,
+        "low": 0.5
+    };
+    return rewardMap[priority.toLowerCase()] || 1;
+}
+
+function showRewardMessage(priority) {
+    const amount = getRewardByPriority(priority);
     const toast = document.getElementById("rewardToast");
     const message = rewardMessages[Math.floor(Math.random() * rewardMessages.length)];
 
     toast.textContent =
-        `${message} $${amount}!`;
+        `${message} $${amount.toFixed(2)}!`;
 
     toast.classList.add("show");
 
