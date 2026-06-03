@@ -149,12 +149,146 @@ function setupGenerateButton() {
             }
 
             selectedDate = date;
-            const schedule = generateSchedule(tasks);
+            const schedule = generateSchedule(tasks, selectedDate);
 
             saveSchedule(date, schedule);
             alert("Schedule generated successfully!");
             resetInputter();
         });
+}
+
+function toMinutes(h, m = 0) {
+    return h * 60 + m;
+}
+
+function getDayName(dateStr) {
+    return new Date(dateStr)
+        .toLocaleDateString("en-US", { weekday: "short" })
+        .toLowerCase();
+}
+
+/* Adjust in order to change 7 AM to 11 PM */
+function createBaseWindow() {
+    return [
+        { start: 420, end: 1380 }
+    ];
+}
+
+function applyBlockedTime(windows, date) {
+    const blocked =
+        JSON.parse(localStorage.getItem("fgBlockedTime")) || [];
+
+    let result = [...windows];
+
+    for (let block of blocked) {
+        // SINGLE DATE BLOCK
+        if (block.type === "single" && block.date === date) {
+            result = cutWindow(result, block.start, block.end);
+        }
+
+        // RECURRING BLOCK
+        if (block.type === "recurring") {
+            const day = getDayName(date);
+
+            if (block.days.includes(day)) {
+                result = cutWindow(result, block.start, block.end);
+            }
+        }
+    }
+
+    return result;
+}
+
+function cutWindow(windows, start, end) {
+
+    let updated = [];
+
+    for (let w of windows) {
+
+        // no overlap
+        if (end <= w.start || start >= w.end) {
+            updated.push(w);
+            continue;
+        }
+
+        // LEFT SPLIT
+        if (start > w.start) {
+            updated.push({
+                start: w.start,
+                end: start
+            });
+        }
+
+        // RIGHT SPLIT
+        if (end < w.end) {
+            updated.push({
+                start: end,
+                end: w.end
+            });
+        }
+    }
+
+    return updated.sort((a, b) => a.start - b.start);
+}
+
+function generateSchedule(taskList, date) {
+
+    const sorted = [...taskList].sort((a, b) => {
+
+        const order = {
+            high: 1,
+            medium: 2,
+            low: 3
+        };
+
+        return order[a.priority] - order[b.priority];
+    });
+
+    let windows = createBaseWindow();
+    windows = applyBlockedTime(windows, date);
+
+    const scheduled = [];
+    const unscheduled = [];
+
+    for (let task of sorted) {
+
+        const needed = task.duration + 5;
+
+        let placed = false;
+
+        for (let w of windows) {
+
+            const available = w.end - w.start;
+
+            if (available >= needed) {
+
+                const start = w.start;
+                const end = start + task.duration;
+
+                scheduled.push({
+                    ...task,
+                    start,
+                    end
+                });
+
+                // update window (consume time + break)
+                w.start = end + 5;
+
+                placed = true;
+                break;
+            }
+        }
+
+        if (!placed) {
+            unscheduled.push(task);
+        }
+    }
+
+    return {
+        date,
+        tasks: scheduled,
+        unscheduled
+    };
 }
 
 /* Scheduling Algorithm */
