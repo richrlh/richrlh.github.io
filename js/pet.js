@@ -29,6 +29,7 @@ function updateBalance() {
 }
 
 updateBalance();
+initializePetName();
 renderStore();
 
 function renderStore(){
