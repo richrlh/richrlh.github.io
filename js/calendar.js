@@ -113,11 +113,12 @@ DATE KEY HELPERS
 */
 
 function getSelectedDateKey(day) {
+    // Create YYYY-MM-DD format to match task-inputter.js
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(day).padStart(2, '0');
 
-    const monthYear =
-        document.getElementById("monthYear").textContent;
-
-    return `${monthYear} ${day}`;
+    return `${year}-${month}-${dayStr}`;
 }
 
 /*
