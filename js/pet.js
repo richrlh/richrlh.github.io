@@ -62,6 +62,37 @@ function buyItem(itemName){
     alert(`${item.name} purchased!`);
 }
 
+/* TASK REWARD SYSTEM */
+function getRewardByPriority(priority) {
+    const rewardMap = {
+        "high": 5,
+        "medium": 1,
+        "low": 0.5
+    };
+    return rewardMap[priority.toLowerCase()] || 0;
+}
+
+function getRewardMessage(priority, amount) {
+    const priorityLabels = {
+        "high": "🔴 High Priority",
+        "medium": "🟡 Medium Priority",
+        "low": "🟢 Low Priority"
+    };
+    return `${priorityLabels[priority.toLowerCase()] || priority} task completed!\n+$${amount.toFixed(2)}`;
+}
+
+function completeTask(taskPriority) {
+    const reward = getRewardByPriority(taskPriority);
+    if (reward === 0) {
+        alert("Invalid priority level! Use 'high', 'medium', or 'low'.");
+        return;
+    }
+    
+    balance += reward;
+    updateBalance();
+    alert(getRewardMessage(taskPriority, reward));
+}
+
 /* PETNAME */
 function initializePetName() {
     const petName = document.getElementById("petName");
