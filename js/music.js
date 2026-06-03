@@ -147,6 +147,12 @@ function togglePlay(index) {
 /* DELETE SONG */
 function deleteSong(index){
     const songs = getPlaylist();
+
+    if (currentlyPlaying) {
+        currentlyPlaying.pause();
+        currentlyPlaying = null;
+    }
+    
     songs.splice(index,1);
     savePlaylist(songs);
     renderPlaylist();
