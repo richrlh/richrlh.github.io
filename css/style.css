@@ -515,36 +515,6 @@ th, td {
     color:#777;
 }
 
-.modalMusic-content{
-    width:90%;
-    max-width:500px;
-    background:white;
-    padding:2rem;
-    border-radius:20px;
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-}
-
-.modalMusic-content input {
-    padding:.8rem;
-    border:1px solid #ccc;
-    border-radius:10px;
-}
-
-.modalMusic-buttons{
-    display:flex;
-    gap:1rem;
-}
-
-.modalMusic-buttons button{
-    flex:1;
-    background:var(--primary);
-    color:white;
-    padding:.8rem;
-    border-radius:10px;
-}
-
 /* Mobile */
 @media (max-width: 768px) {
     /* Calendar */
