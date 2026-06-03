@@ -757,6 +757,20 @@ th, td {
     cursor:pointer;
 }
 
+.store-left{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.store-image{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    border-radius:10px;
+    background:white;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     /* Calendar */
