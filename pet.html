@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feral Gremlin - Greet Your Pet</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
+<div class="pet-page">
+    <div id="sidebar-container"></div>
+    <main class="main-content">
+
+    <!-- Header Injected Here -->
+    <div id="header-container"></div>
+    <!-- LEFT SIDE -->
+    <section class="pet-section">
+        <div class="greeting-box">
+            <h2>
+                I'm
+                <input
+                    type="text"
+                    id="petName"
+                    placeholder="Buddy"
+                    maxlength="20"
+                >!
+            </h2>
+
+            <p id="petGreeting">
+                Ready to tackle your tasks today?
+            </p>
+        </div>
+
+        <div class="pet-display-area">
+
+            <div class="emotion-container">
+
+                <p>Sad</p>
+
+                <div class="emotion-meter">
+                    <div id="emotionFill"></div>
+                </div>
+
+                <p>Happy</p>
+
+            </div>
+
+            <div class="pet-wrapper">
+
+                <img
+                    src="assets/images/golden-retriever.png"
+                    alt="Pet"
+                    id="petImage"
+                >
+
+                <!-- overlays -->
+                <img id="clothingOverlay" class="overlay">
+                <img id="toyOverlay" class="overlay">
+                <img id="foodOverlay" class="overlay">
+
+            </div>
+
+        </div>
+
+        <div class="equipment-section">
+
+            <button class="equipment-btn" id="toyBtn">
+                🧸 Toy
+            </button>
+
+            <button class="equipment-btn" id="clothingBtn">
+                👕 Clothing
+            </button>
+
+            <button class="equipment-btn" id="foodBtn">
+                🦴 Food
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- RIGHT SIDE -->
+
+    <section class="store-section">
+
+        <div class="balance-box">
+
+            <h2>Balance</h2>
+
+            <div id="balanceDisplay">
+                $10.00
+            </div>
+
+        </div>
+
+        <h2>Pet Store</h2>
+
+        <div id="storeContainer" class="store-container">
+        </div>
+
+    </section>
+    </main>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/pet.js"></script>
+
+</body>
+</html>
