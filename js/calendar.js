@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let currentDate = new Date();
 let balance = Number(localStorage.getItem("fgBalance")) || 10;
+let emotionLevel = Number(localStorage.getItem("fgEmotionLevel")) || 50;
 const rewardMessages = [
     "Yay, you did it! You earned",
     "Woof! Great work! You earned",
@@ -281,6 +282,8 @@ function attachTaskButtons() {
                     .style.opacity = "0.4";
 
                 showRewardMessage(taskPriority);
+                
+                increaseEmotionMeter(taskPriority);
             });
         });
 
@@ -381,6 +384,40 @@ function showRewardMessage(priority) {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 4000);
+}
+
+/*
+====================================
+EMOTION METER SYSTEM
+====================================
+*/
+
+function increaseEmotionMeter(priority) {
+    const emotionBoost = getEmotionBoostByPriority(priority);
+    emotionLevel = Math.min(100, emotionLevel + emotionBoost);
+    updateEmotionDisplay();
+}
+
+function decreaseEmotionMeter() {
+    emotionLevel = Math.max(0, emotionLevel - 5);
+    updateEmotionDisplay();
+}
+
+function getEmotionBoostByPriority(priority) {
+    const boostMap = {
+        "high": 20,
+        "medium": 10,
+        "low": 5
+    };
+    return boostMap[priority.toLowerCase()] || 10;
+}
+
+function updateEmotionDisplay() {
+    const emotionFill = document.getElementById("emotionFill");
+    if (emotionFill) {
+        emotionFill.style.height = emotionLevel + "%";
+    }
+    localStorage.setItem("fgEmotionLevel", emotionLevel);
 }
 
 /* MODAL */
