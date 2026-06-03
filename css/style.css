@@ -515,15 +515,6 @@ th, td {
     color:#777;
 }
 
-.modalMusic {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
 .modalMusic-content{
     width:90%;
     max-width:500px;
