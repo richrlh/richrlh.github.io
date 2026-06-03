@@ -445,12 +445,22 @@ th, td {
 }
 
 /* MUSIC SELECTOR */
-.primary-btn {
-    background:var(--primary);
-    color:white;
-    padding:.9rem 1.3rem;
-    border-radius:12px;
-    font-size:1rem;
+.primary-btn{
+    background: white;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary);
+    padding: 0.75rem 1.2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    width: fit-content;
+    align-self: center;
+    transition: all 0.2s ease;
+}
+
+.primary-btn:hover{
+    background: var(--primary);
+    color: white;
 }
 
 .playlist-container {
