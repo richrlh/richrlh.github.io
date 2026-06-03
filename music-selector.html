@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feral Gremlin - Music Selector</title>
 
+    <link rel="stylesheet" href="css/music-selector.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Feral Gremlin</h1>
+        <h2>My To-Do List Playlist</h2>
+    </header>
+
+    <main>
+
+        <div class="playlist-container">
+
+            <div id="playlist"></div>
+
+            <button id="addSongBtn" class="primary-btn">
+                + Add Song
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Modal -->
+
+<div id="songModal" class="modal hidden">
+
+    <div class="modal-content">
+
+        <h3>Add Song</h3>
+
+        <label>Song Name</label>
+        <input
+            type="text"
+            id="songName"
+            placeholder="Enter song name"
+        >
+
+        <label>YouTube Link (Optional)</label>
+        <input
+            type="text"
+            id="youtubeLink"
+            placeholder="https://youtube.com/..."
+        >
+
+        <div class="divider">OR</div>
+
+        <label>Upload Audio File</label>
+        <input
+            type="file"
+            id="audioFile"
+            accept="audio/*"
+        >
+
+        <div class="modal-buttons">
+            <button id="saveSong">Save Song</button>
+            <button id="cancelSong">Cancel</button>
+        </div>
+
+    </div>
+
+</div>
+<script src="js/main.js"></script>
+<script src="js/music.js"></script>
+</body>
+</html>
