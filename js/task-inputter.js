@@ -284,71 +284,6 @@ function generateSchedule(taskList, date) {
         }
     }
 
-    return {
-        date,
-        tasks: scheduled,
-        unscheduled
-    };
-}
-
-/* Scheduling Algorithm */
-function generateSchedule(taskList) {
-    const sorted =
-        [...taskList].sort((a, b) => {
-
-            const order = {
-                high: 1,
-                medium: 2,
-                low: 3
-            };
-
-            return order[a.priority] - order[b.priority];
-        });
-
-    // Available time windows (7 AM - 11 PM default)
-    let windows = [
-        { start: 420, end: 1380 }
-    ];
-
-    const scheduled = [];
-    const unscheduled = [];
-
-    for (let task of sorted) {
-
-        const required =
-            task.duration + 5; // break time
-
-        let placed = false;
-
-        for (let w of windows) {
-
-            const available =
-                w.end - w.start;
-
-            if (available >= required) {
-
-                const start = w.start;
-                const end = start + task.duration;
-
-                scheduled.push({
-                    ...task,
-                    start,
-                    end
-                });
-
-                // Update window (consume time + break)
-                w.start = end + 5;
-
-                placed = true;
-                break;
-            }
-        }
-
-        if (!placed) {
-            unscheduled.push(task);
-        }
-    }
-
     if (unscheduled.length > 0) {
         console.warn(
             "Some tasks could not be scheduled",
@@ -357,7 +292,7 @@ function generateSchedule(taskList) {
     }
 
     return {
-        date: selectedDate,
+        date,
         tasks: scheduled,
         unscheduled
     };
