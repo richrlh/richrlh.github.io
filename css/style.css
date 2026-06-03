@@ -786,4 +786,13 @@ th, td {
     .song-controls button{
         flex:1;
     }
+
+    .pet-page{
+        flex-direction:column;
+    }
+
+    .store-section{
+        border-left:none;
+        border-top:4px solid var(--turquoise);
+    }
 }
