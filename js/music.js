@@ -39,14 +39,14 @@ function renderPlaylist() {
 
             <div class="song-controls">
                 <button
-                    class="play-btn"
+                    class="playMusic-btn"
                     onclick="togglePlay(${index})"
                 >
                     ▶ Play
                 </button>
 
                 <button
-                    class="delete-btn"
+                    class="deleteMusic-btn"
                     onclick="deleteSong(${index})"
                 >
                     🗑
