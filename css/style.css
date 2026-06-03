@@ -497,6 +497,20 @@ th, td {
     flex-wrap:wrap;
 }
 
+.playMusic-btn{
+    background:#50c878;
+    color:white;
+    padding:.6rem .9rem;
+    border-radius:10px;
+}
+
+.deleteMusic-btn{
+    background:#ff6b6b;
+    color:white;
+    padding:.6rem .9rem;
+    border-radius:10px;
+}
+
 .divider {
     text-align:center;
     color:#777;
