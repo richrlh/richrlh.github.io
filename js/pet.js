@@ -60,3 +60,15 @@ function buyItem(itemName){
     updateBalance();
     alert(`${item.name} purchased!`);
 }
+
+/* PETNAME */
+function initializePetName() {
+    const petName = document.getElementById("petName");
+    if (!petName) return;
+
+    petName.textContent = localStorage.getItem("fgPetName") || "Buddy";
+
+    petName.addEventListener("blur", () => {
+        localStorage.setItem("fgPetName", petName.textContent.trim());
+    });
+}
