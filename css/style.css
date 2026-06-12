@@ -36,7 +36,6 @@ body {
 
 .sidebar.collapsed {
     width: 70px;
-    background: red !important;
 }
 
 .hamburger {
