@@ -53,8 +53,18 @@ body {
     gap: 12px;
 }
 
-.sidebar.collapsed .sidebar-nav {
+.sidebar.collapsed .text {
     display: none;
+}
+
+.sidebar.collapsed .nav-link {
+    justify-content: center;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .nav-link {
